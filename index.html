@@ -29,12 +29,9 @@ async function setup(event) {
   mouseY = event.clientY
   
   // central eye
-  const main_eye = await nn.loadImage(GIF_1)
   const l = nn.height / 4
   const w = nn.width / 4
-  const x = mouseX 
-  const y = mouseY
-  createEye(x, y, l, w, main_eye)
+  createEye(mouseX, mouseY, l, w, GIF_1)
   
 }
 
