@@ -4,6 +4,7 @@
 /* global nn */
   
 const GIF_1 = 'maineye.gif'
+const GIF_2 = 'lileye.gif'
 const COLOR = 'Black'
 
 let mouseX = 0  
@@ -11,7 +12,7 @@ let mouseY = 0
 
 function createEye(x, y, l, w, link) {
   nn.create('img')
-    .set({ src: link })
+    .set({ src: `${link}#${Math.random()}` })
     .css({
       position: 'absolute',
       width: w,
@@ -22,7 +23,16 @@ function createEye(x, y, l, w, link) {
     .addTo('body')
   }
 
-async function setup(event) {
+async function aroundEye(n, scale, radius, link, cx, cy) {
+  const lil_eye = await nn.loadImage(link)
+  for (let i = 0; i < n; i++) {
+      const x = cx + Math.sin(i * scale) * radius
+      const y = cy + Math.cos(i * scale) * radius
+      createEye(x, y, lil_eye.width, lil_eye.height, link)
+    } 
+}
+  
+function setup(event) {
   nn.get('body').css({ backgroundColor: COLOR })
   
   mouseX = event.clientX
@@ -33,8 +43,14 @@ async function setup(event) {
   const w = nn.width / 4
   createEye(mouseX, mouseY, l, w, GIF_1)
   
+  // tiny eyes
+  const circles = 30
+  for (let c=0; c<circles; c++) {
+    aroundEye(100, 100, 4*c - l, GIF_2, mouseX, mouseY)
+  }
 }
 
 nn.on('mousedown', setup)
 </script>
+
     
